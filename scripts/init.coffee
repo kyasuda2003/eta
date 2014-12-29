@@ -1,23 +1,31 @@
 ##! /usr/local/bin/node
 console.log "**************\n* automation *\n**************\n"
-_ref1 = require("./../lib/shell-helper")
+#_ref1 = require("./../lib/shell-helper")
 _ref2 = require("./../lib/shell-helper")
 
-_ref1.series ["coffee -c ./../"], (err) ->
-  console.log err
-  return
+#_ref1.series ["coffee -c ./../"], (err) ->
+#  console.log err
+#  return
 
-_ref1.series ["mongod"], (err) ->
-  console.log err
+main=()->
+  _ref2.series ["node ./../app/app-ssl"], (err) ->
+    console.log err
+    main()
+    return
   return
+  
+main()
+#_ref1.series ["mongod"], (err) ->
+#  console.log err
+#  return
 
-_ref2.series ["node ./../app/app"], (err) ->
-  console.log err
-  return
+#_ref2.series ["node ./../app/app"], (err) ->
+#  console.log err
+#  return
 
-_ref2.series ["node ./../app/rest"], (err) ->
-  console.log err
-  return
+#_ref2.series ["node ./../app/rest"], (err) ->
+#  console.log err
+#  return
 
 
 #

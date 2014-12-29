@@ -12,7 +12,6 @@ exports.exec = (cmd, cb) ->
       err.cmd = cmd
     cb and cb(err)
     return
-  
 
   return
 
