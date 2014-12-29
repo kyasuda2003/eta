@@ -10,7 +10,7 @@ apiProxy = (url) ->
     else
       next()
     return
-
+    
 webAccess = ->
   (req, res, next) ->
     
@@ -49,7 +49,7 @@ httpProxy = require("http-proxy")
 exp.configure ->
   #exp.use(express.bodyParser());
   exp.use apiProxy("http://localhost:" + _api_port)
-  exp.use webAccess()
+  #exp.use webAccess()
   return
 
 #exp.use(exp.router);
