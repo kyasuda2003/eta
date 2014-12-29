@@ -20,7 +20,6 @@ httpProxy.createServer(
 
 console.log "The app begins to listen on port#"+_app_port+" and to forward any request to port#"+_api_port
 
-
 process.stdin.resume()
 
 #do something when app is closing
