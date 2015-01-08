@@ -8,7 +8,7 @@ _ref2 = require("./../lib/shell-helper")
 #  return
 
 main=()->
-  _ref2.series ["node ./../app/app-ssl"], (err) ->
+  _ref2.series ["node ./../app/app"], (err) ->
     console.log err
     main()
     return
