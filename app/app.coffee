@@ -1,31 +1,34 @@
-apiProxy = (url) ->
+apiProxy = (_poe_port, _proxicode_port, _host) ->
   (req, res, next) ->
-    if req.url.match(new RegExp("^/api/"))
-      
-      #console.log(httpProxy);
-      proxy = httpProxy.createProxyServer({})
+    if req.host.match(new RegExp("^www.pacificoasis.com")) or req.host.match(new RegExp("^pacificoasis.com"))
       proxy.web req, res,
-        target: url
+        target:
+          host: _host
+          port: _poe_port
+          xfwd: true
+
+    else if req.host.match(new RegExp("^www.proxicode.cc")) or req.host.match(new RegExp("^proxicode.cc"))
+      proxy.web req, res,
+        target:
+          host: _host
+          port: _proxicode_port
+          xfwd: true
 
     else
       next()
     return
-    
+###
 webAccess = ->
   (req, res, next) ->
-    
-    #Admin access
+    p = undefined
+    vpath = undefined
     if req.url.match(new RegExp("^/admin/"))
-      
-      #res.send(req.path.substring(6));
       p = currentAdminPath + req.path.substring(6)
       if path.existsSync(p)
         console.log "loading.. " + p
         res.sendfile p
       else
         res.send "Thank you for your inquiry."
-    
-    #Public Access
     else
       vpath = ((if req.path is "/" then "/index.html" else path.resolve(req.path)))
       if path.existsSync(currentPath + vpath)
@@ -34,27 +37,29 @@ webAccess = ->
       else
         res.send "Thanks for your inquery."
     return
-
-_api_port = 8999
-_app_port = 9000
+###
+host = "localhost"
+poe_port = 8000
+proxicode_port = 8001
+app_port = 9000
 express = require("express")
 path = require("path")
 console.log "__dirname:" + __dirname
-currentPath = path.resolve(__dirname, "..", "..", "./theta/trunk/app")
-currentAdminPath = path.resolve(__dirname, "..", "..", "./xi/trunk/app")
-console.log "currentPath:" + currentPath
+
+#currentPath = path.resolve(__dirname, "..", "..", "./theta/trunk/app")
+#currentAdminPath = path.resolve(__dirname, "..", "..", "./xi/trunk/app")
+#console.log "currentPath:" + currentPath
+
 exp = express()
 httpProxy = require("http-proxy")
+proxy = httpProxy.createProxyServer({})
 
 exp.configure ->
-  #exp.use(express.bodyParser());
-  exp.use apiProxy("http://localhost:" + _api_port)
-  #exp.use webAccess()
+  exp.use apiProxy(poe_port, proxicode_port, host)
   return
 
-#exp.use(exp.router);
-exp.listen _app_port
-console.log "The application's listening on the port# " + _app_port
+exp.listen app_port
+console.log "The application's listening on the port# " + app_port
 process.on "uncaughtException", (err) ->
   console.log "Application exits. err: " + err
   return
