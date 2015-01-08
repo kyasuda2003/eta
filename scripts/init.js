@@ -6,7 +6,7 @@
   _ref2 = require("./../lib/shell-helper");
 
   main = function() {
-    _ref2.series(["node ./../app/app-ssl"], function(err) {
+    _ref2.series(["node ./../app/app"], function(err) {
       console.log(err);
       main();
     });
