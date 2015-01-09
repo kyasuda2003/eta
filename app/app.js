@@ -3,7 +3,8 @@
 
   apiProxy = function(_poe_port, _proxicode_port, _host) {
     return function(req, res, next) {
-      if (req.host.match(new RegExp("^www.pacificoasis.com")) || req.host.match(new RegExp("^pacificoasis.com"))) {
+      var _ref, _ref1;
+      if ((req != null ? (_ref = req.host) != null ? _ref.match(new RegExp("^www.pacificoasis.com")) : void 0 : void 0) || req.host.match(new RegExp("^pacificoasis.com"))) {
         proxy.web(req, res, {
           target: {
             host: _host,
@@ -11,7 +12,7 @@
             xfwd: true
           }
         });
-      } else if (req.host.match(new RegExp("^www.proxicode.cc")) || req.host.match(new RegExp("^proxicode.cc"))) {
+      } else if ((req != null ? (_ref1 = req.host) != null ? _ref1.match(new RegExp("^www.proxicode.cc")) : void 0 : void 0) || req.host.match(new RegExp("^proxicode.cc"))) {
         proxy.web(req, res, {
           target: {
             host: _host,

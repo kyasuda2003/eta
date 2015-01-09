@@ -1,13 +1,13 @@
 apiProxy = (_poe_port, _proxicode_port, _host) ->
   (req, res, next) ->
-    if req.host.match(new RegExp("^www.pacificoasis.com")) or req.host.match(new RegExp("^pacificoasis.com"))
+    if req?.host?.match(new RegExp("^www.pacificoasis.com")) or req.host.match(new RegExp("^pacificoasis.com"))
       proxy.web req, res,
         target:
           host: _host
           port: _poe_port
           xfwd: true
 
-    else if req.host.match(new RegExp("^www.proxicode.cc")) or req.host.match(new RegExp("^proxicode.cc"))
+    else if req?.host?.match(new RegExp("^www.proxicode.cc")) or req.host.match(new RegExp("^proxicode.cc"))
       proxy.web req, res,
         target:
           host: _host
