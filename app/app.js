@@ -72,6 +72,8 @@
 
   proxy = httpProxy.createProxyServer({});
 
+  exp.disable('x-powered-by');
+
   exp.configure(function() {
     exp.use(apiProxy(poe_port, proxicode_port, host));
   });
