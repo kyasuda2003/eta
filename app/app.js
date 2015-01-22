@@ -5,7 +5,7 @@
     return function(req, res, next) {
       var _ref, _ref1;
       if ((req != null ? (_ref = req.host) != null ? _ref.match(new RegExp("^www.pacificoasis.com")) : void 0 : void 0) || req.host.match(new RegExp("^pacificoasis.com"))) {
-        console.log(req.host);
+        //console.log(req.host);
         proxy.web(req, res, {
           target: {
             host: _host,
@@ -14,7 +14,7 @@
           }
         });
       } else if ((req != null ? (_ref1 = req.host) != null ? _ref1.match(new RegExp("^www.proxicode.cc")) : void 0 : void 0) || req.host.match(new RegExp("^proxicode.cc"))) {
-        console.log(req.host);
+        //console.log(req.host);
         proxy.web(req, res, {
           target: {
             host: _host,
@@ -23,8 +23,11 @@
           }
         });
       } else {
-        console.log(req.host);
-        next();
+        console.log("req.host: "+req.host);
+        console.log("req.url: "+req.url);
+	console.log("req.query: "+req.query.toString());
+        console.log("timestamps: "+new Date().toString());
+	next();
       }
     };
   };
