@@ -13,6 +13,7 @@
           }
         });
       } else if ((req != null ? (_ref2 = req.host) != null ? _ref2.match(new RegExp("^www.proxicode.cc")) : void 0 : void 0) || (req != null ? (_ref3 = req.host) != null ? _ref3.match(new RegExp("^proxicode.cc")) : void 0 : void 0)) {
+        console.log("req.url: " + req.url);
         proxy.web(req, res, {
           target: {
             host: _host,
