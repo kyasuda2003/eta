@@ -1,11 +1,10 @@
 (function() {
-  var apiProxy, app_port, exp, express, host, httpProxy, path, poe_port, proxicode_port, proxy;
+  var apiProxy, app_port, exp, express, host, httpProxy, openfire_admin_port, openfire_client_port, path, poe_port, proxicode_port, proxy;
 
-  apiProxy = function(_poe_port, _proxicode_port, _host) {
+  apiProxy = function(_poe_port, _proxicode_port, _openfire_client_port, _host) {
     return function(req, res, next) {
-      var _ref, _ref1;
-      if ((req != null ? (_ref = req.host) != null ? _ref.match(new RegExp("^www.pacificoasis.com")) : void 0 : void 0) || req.host.match(new RegExp("^pacificoasis.com"))) {
-        //console.log(req.host);
+      var _ref, _ref1, _ref2, _ref3;
+      if ((req != null ? (_ref = req.host) != null ? _ref.match(new RegExp("^www.pacificoasis.com")) : void 0 : void 0) || (req != null ? (_ref1 = req.host) != null ? _ref1.match(new RegExp("^pacificoasis.com")) : void 0 : void 0)) {
         proxy.web(req, res, {
           target: {
             host: _host,
@@ -13,21 +12,20 @@
             xfwd: true
           }
         });
-      } else if ((req != null ? (_ref1 = req.host) != null ? _ref1.match(new RegExp("^www.proxicode.cc")) : void 0 : void 0) || req.host.match(new RegExp("^proxicode.cc"))) {
-        //console.log(req.host);
+      } else if ((req != null ? (_ref2 = req.host) != null ? _ref2.match(new RegExp("^www.proxicode.cc")) : void 0 : void 0) || (req != null ? (_ref3 = req.host) != null ? _ref3.match(new RegExp("^proxicode.cc")) : void 0 : void 0)) {
         proxy.web(req, res, {
           target: {
             host: _host,
-            port: _proxicode_port,
+            port: req.url.match(new RegExp("\/http-bin\/$")) ? _openfire_client_port : _proxicode_port,
             xfwd: true
           }
         });
       } else {
-        console.log("req.host: "+req.host);
-        console.log("req.url: "+req.url);
-	console.log("req.query: "+req.query.toString());
-        console.log("timestamps: "+new Date().toString());
-	next();
+        console.log("req.host: " + req.host);
+        console.log("req.url: " + req.url);
+        console.log("req.query: " + req.query.toString());
+        console.log("timestamps: " + new Date().toString());
+        next();
       }
     };
   };
@@ -61,6 +59,10 @@
 
   proxicode_port = 8001;
 
+  openfire_admin_port = 8002;
+
+  openfire_client_port = 8004;
+
   app_port = 9000;
 
   express = require("express");
@@ -78,7 +80,7 @@
   exp.disable('x-powered-by');
 
   exp.configure(function() {
-    exp.use(apiProxy(poe_port, proxicode_port, host));
+    exp.use(apiProxy(poe_port, proxicode_port, openfire_client_port, host));
   });
 
   exp.listen(app_port);
