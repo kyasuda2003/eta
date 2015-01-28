@@ -17,7 +17,7 @@
         proxy.web(req, res, {
           target: {
             host: _host,
-            port: req.url.match(new RegExp("\/http-bin\/$")) ? _openfire_client_port : _proxicode_port,
+            port: req.url.match(new RegExp("\/http-bind\/$")) ? _openfire_client_port : _proxicode_port,
             xfwd: true
           }
         });
